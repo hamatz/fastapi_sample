@@ -1,0 +1,2 @@
+# fastapi_sample
+FastAPIを利用したStubサーバーのサンプルプロジェクト

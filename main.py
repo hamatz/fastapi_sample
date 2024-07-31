@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse, HTMLResponse
 import random
 import string
 
@@ -112,6 +113,31 @@ async def signup(email: str = Form(...), password: str = Form(...)):
     return {"message": "Please verify your email", "verification_code": verification_code}
 
 
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+
+@app.get("/signup", response_class=HTMLResponse)
+async def signup_page(request: Request):
+    return templates.TemplateResponse("signup.html", {"request": request})
+
+# サインアップ確認ページを表示するエンドポイント
+@app.get("/verify", response_class=HTMLResponse)
+async def verify_page(request: Request, email: str, code: str):
+    return templates.TemplateResponse("verify.html", {"request": request, "email": email, "code": code})
+
+# メールアドレス認証完了ページを表示するエンドポイント
+@app.get("/verified", response_class=HTMLResponse)
+async def verified_page(request: Request):
+    return templates.TemplateResponse("verified.html", {"request": request})
+
+# メールアドレス検証エンドポイントの更新
 @app.get("/verify/{email}/{code}")
 async def verify(email: str, code: str):
     if email not in pending_users:
@@ -129,19 +155,4 @@ async def verify(email: str, code: str):
         "disabled": False,
         "preferences": {"theme": "default", "notifications": True},
     }
-    return {"message": "User successfully verified and registered"}
-
-
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-
-@app.get("/login", response_class=HTMLResponse)
-async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
-
-
-@app.get("/signup", response_class=HTMLResponse)
-async def signup_page(request: Request):
-    return templates.TemplateResponse("signup.html", {"request": request})
+    return RedirectResponse(url="/verified")

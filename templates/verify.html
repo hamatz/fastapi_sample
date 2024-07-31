@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Check Your Email</h1>
+        <p>Please check your email for the verification link and click on it to complete your registration.</p>
+        <p>Alternatively, use the verification code below:</p>
+        <p id="verification-code" class="code"></p>
+        <p>Verification Link:</p>
+        <p><a id="verification-link" href="#">Click here to verify</a></p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            const code = urlParams.get('code');
+            document.getElementById('verification-code').innerText = code;
+            document.getElementById('verification-link').href = `/verify/${email}/${code}`;
+        });
+    </script>
+</body>
+</html>

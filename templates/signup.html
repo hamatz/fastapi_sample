@@ -36,7 +36,8 @@
 
             if (response.ok) {
                 const data = await response.json();
-                alert('Sign up successful. Verification code: ' + data.verification_code);
+                const verificationCode = data.verification_code;
+                window.location.href = `/verify?email=${email}&code=${verificationCode}`;
             } else {
                 alert('Sign up failed');
             }

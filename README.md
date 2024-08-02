@@ -22,8 +22,8 @@ This project demonstrates a simple FastAPI application with login and signup fun
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone https://github.com/hamatz/fastapi_sample.git
+cd fastapi_sample
 ```
 
 ### Create a virtual environment
@@ -46,6 +46,8 @@ uvicorn main:app --reload
 ```
 
 The application will be available at `http://127.0.0.1:8000`.
+API Document can be seen on `http://127.0.0.1:8000/docs`
+
 
 ### Access the web views
 
